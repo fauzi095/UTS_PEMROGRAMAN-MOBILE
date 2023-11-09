@@ -43,7 +43,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             //  child: Image.asset("images/santa-claus.png"),
             ),
             SizedBox(height: 50),
-            Text("Doctor Appointment",
+            Text("PERHITUNGAN",
             style: TextStyle(
               color: Colors.red,
               fontSize: 35,
@@ -53,7 +53,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
           ),
         SizedBox(height: 10),
-            Text("Appoint Your Doctor",
+            Text("WELCOME",
             style: TextStyle(
               color: Colors.black54,
               fontSize: 18,
