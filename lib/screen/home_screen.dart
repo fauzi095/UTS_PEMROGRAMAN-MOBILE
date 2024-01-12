@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screen/nilairata.dart';
-import 'package:flutter_application_1/screen/user.dart';
-import 'calculator.dart'; // Import Calculator page
-import 'BMI.dart'; // Import BMI Calculator page
-import 'suhu.dart'; // Import Temperature Converter page
+import 'calculator.dart';
+import 'BMI.dart';
+import 'suhu.dart';
+import 'user.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -12,115 +12,151 @@ void main() {
   ));
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
+  List<Widget> _pages = [
+    HomeContent(),
+    UserPage(),
+    TambahPage(), // Add a new page for "Tambah"
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Fauzi WOW'),
+      body: _pages[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Tambah',
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(top: 40),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Hello User",
-                    style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.w500,
-                    ),
+    );
+  }
+}
+
+class HomeContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: EdgeInsets.only(top: 40),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Hello User",
+                  style: TextStyle(
+                    fontSize: 35,
+                    fontWeight: FontWeight.w500,
                   ),
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundImage: AssetImage("images/santa-claus.jpg"),
+                ),
+                CircleAvatar(
+                  radius: 25,
+                  backgroundImage: AssetImage("images/santa-claus.jpg"),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 30),
+
+          // Feature Buttons
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  buildFeatureButton(
+                    'Calculator',
+                    'images/calculator.jpg',
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CalculatorPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  buildFeatureButton(
+                    'BMI Calculator',
+                    'images/BMI.jpg',
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BMICalculator(),
+                        ),
+                      );
+                    },
+                  ),
+                  buildFeatureButton(
+                    'Temperature Converter',
+                    'images/tanya.jpg',
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TemperatureConverter(),
+                        ),
+                      );
+                    },
+                  ),
+                  // "Average Calculator" Button
+                  buildFeatureButton(
+                    'Average Calculator',
+                    'images/average.jpg',
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AverageCalculator(),
+                        ),
+                      );
+                    },
+                  ),
+                  // "Tambah" Button
+                  buildFeatureButton(
+                    'API',
+                    'images/your_image.jpg', // Replace with the appropriate image path
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TambahPage(),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 30),
-
-            // Feature Buttons
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    buildFeatureButton(
-                      'Calculator',
-                      'images/calculator.jpg',
-                      () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CalculatorPage(),
-                          ),
-                        );
-                      },
-                    ),
-                    buildFeatureButton(
-                      'BMI Calculator',
-                      'images/BMI.jpg',
-                      () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BMICalculator(),
-                          ),
-                        );
-                      },
-                    ),
-                    buildFeatureButton(
-                      'Temperature Converter',
-                      'images/tanya.jpg',
-                      () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TemperatureConverter(),
-                          ),
-                        );
-                      },
-                    ),
-                    // "Average Calculator" Button
-                    buildFeatureButton(
-                      'Average Calculator',
-                      'images/average.jpg',
-                      () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AverageCalculator(),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            // Profile Button
-            SizedBox(height: 20),
-            buildFeatureButton(
-              'Profile',
-              'images/profile.jpg',
-              () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UserPage(),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -130,6 +166,7 @@ class HomeScreen extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         padding: EdgeInsets.all(20),
+        margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: Color(0xFF7165D6),
           borderRadius: BorderRadius.circular(10),
@@ -174,6 +211,20 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class TambahPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Tambah Page'),
+      ),
+      body: Center(
+        child: Text('Tambah Page Content'),
       ),
     );
   }
